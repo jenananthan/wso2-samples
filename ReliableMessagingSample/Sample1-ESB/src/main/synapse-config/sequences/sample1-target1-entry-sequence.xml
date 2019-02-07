@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="sample1-target1-entry-sequence" onError="sample1-error-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="full">
+        <property name="Log_Message" value="Message received from topic sample1Topic"/>
+    </log>
+    <call blocking="true">
+        <endpoint>
+            <address uri="http://localhost:8280/mock/publish"/>
+        </endpoint>
+    </call>
+    <switch source="$axis2:HTTP_SC">
+        <case regex="2\d\d"/>
+        <default>
+            <property name="SET_ROLLBACK_ONLY" scope="default" type="STRING" value="true"/>
+            <log level="full">
+                <property name="Log_Message" value="Error occured in target API. Rollback the transaction for retry"/>
+            </log>
+        </default>
+    </switch>
+</sequence>

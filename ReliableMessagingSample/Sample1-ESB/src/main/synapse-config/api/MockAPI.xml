@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/mock" name="MockAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource faultSequence="fault" methods="POST" url-mapping="/publish">
+        <inSequence>
+            <log level="full">
+                <property name="Log_Message" value="Message received in mock API"/>
+            </log>
+            <payloadFactory media-type="json">
+                <format>{"Status":"OK"}</format>
+                <args/>
+            </payloadFactory>
+            <log>
+                <property expression="json-eval($.)" name="JSON-Payload"/>
+            </log>
+            <property action="remove" name="NO_ENTITY_BODY" scope="axis2"/>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+    </resource>
+</api>

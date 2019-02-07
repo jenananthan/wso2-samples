@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="sample1-entry-sequence" onError="sample1-error-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="full">
+        <property name="Log_Message" value="Message received from sample1-source"/>
+    </log>
+    <property description="Set: OUT_ONLY true" name="OUT_ONLY" scope="default" type="STRING" value="true"/>
+    <call blocking="true">
+        <endpoint>
+            <address uri="jms:/sample1Topic?transport.jms.ConnectionFactoryJNDIName=TopicConnectionFactory&amp;java.naming.factory.initial=org.wso2.andes.jndi.PropertiesFileInitialContextFactory&amp;java.naming.provider.url=conf/jndi.properties&amp;transport.jms.DestinationType=topic"/>
+        </endpoint>
+    </call>
+</sequence>

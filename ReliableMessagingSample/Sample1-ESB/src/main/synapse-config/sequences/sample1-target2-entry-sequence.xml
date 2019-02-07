@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="sample1-target2-entry-sequence" onError="sample1-error-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="full">
+        <property name="Log_Message" value="Message received from topic sample1Topic"/>
+        <property name="Log_Message" value="Add messsage to queue"/>
+    </log>
+    <property description="Set: OUT_ONLY true" name="OUT_ONLY" scope="default" type="STRING" value="true"/>
+    <call blocking="true">
+        <endpoint>
+            <address uri="jms:/targetqueue?transport.jms.ConnectionFactoryJNDIName=QueueConnectionFactory&amp;java.naming.factory.initial=org.wso2.andes.jndi.PropertiesFileInitialContextFactory&amp;java.naming.provider.url=conf/jndi.properties&amp;transport.jms.DestinationType=queue"/>
+        </endpoint>
+    </call>
+</sequence>
